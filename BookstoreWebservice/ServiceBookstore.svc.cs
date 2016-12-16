@@ -174,31 +174,28 @@ namespace BookstoreWebservice
         }        public List<Book> GetBooks(string token)
         {
             checkAuthentication(token, false);
-
             XmlDocument doc = new XmlDocument();
             doc.Load(FILEPATH);
             List<Book> books = new List<Book>();
-            XmlNodeList bookNodes = doc.SelectNodes("//book");
+            XmlNodeList bookNodes = doc.SelectNodes("/bookstore/book");
             foreach (XmlNode bookNode in bookNodes)
             {
                 XmlNode titleNode = bookNode.SelectSingleNode("title");
                 XmlNode authorNode = bookNode.SelectSingleNode("author");
                 XmlNode yearNode = bookNode.SelectSingleNode("year");
                 XmlNode priceNode = bookNode.SelectSingleNode("price");
-                XmlAttribute categoryNode = bookNode.Attributes["category"];
-                Book book = 
-                    new Book(
-                        titleNode.InnerText,
-                       authorNode.InnerText,
-                        Convert.ToInt32(yearNode.InnerText),
-                        Convert.ToDouble(priceNode.InnerText, NumberFormatInfo.InvariantInfo),
-                        categoryNode.Value
-                    );
+                XmlAttribute categoryNode = bookNode.Attributes["CATEGORY"];
+                Book book = new Book(
+                titleNode.InnerText,
+                authorNode.InnerText,
+                Convert.ToInt32(yearNode.InnerText),
+                Convert.ToDouble(priceNode.InnerText, NumberFormatInfo.InvariantInfo),
+                categoryNode.Value
+                );
                 books.Add(book);
             }
             return books;
-
-        }
+        }
 
         public List<Book> GetBooks(string category, string token)
         {
