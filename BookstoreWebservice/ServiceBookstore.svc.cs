@@ -81,7 +81,7 @@ namespace BookstoreWebservice
 
             // default administrator
             users.Add("admin", new User("admin", "admin", true));
-            FILEPATH = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "App_Data", "bookstore.xml");
+            FILEPATH = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "App_Data", "Bookstore.xml");
         }
 
         public void SignUp(User user, string token)
@@ -178,18 +178,18 @@ namespace BookstoreWebservice
             XmlDocument doc = new XmlDocument();
             doc.Load(FILEPATH);
             List<Book> books = new List<Book>();
-            XmlNodeList bookNodes = doc.SelectNodes("/bookstore/book");
+            XmlNodeList bookNodes = doc.SelectNodes("//book");
             foreach (XmlNode bookNode in bookNodes)
             {
                 XmlNode titleNode = bookNode.SelectSingleNode("title");
                 XmlNode authorNode = bookNode.SelectSingleNode("author");
                 XmlNode yearNode = bookNode.SelectSingleNode("year");
                 XmlNode priceNode = bookNode.SelectSingleNode("price");
-                XmlAttribute categoryNode = bookNode.Attributes["CATEGORY"];
+                XmlAttribute categoryNode = bookNode.Attributes["category"];
                 Book book = 
                     new Book(
                         titleNode.InnerText,
-                        authorNode.InnerText,
+                       authorNode.InnerText,
                         Convert.ToInt32(yearNode.InnerText),
                         Convert.ToDouble(priceNode.InnerText, NumberFormatInfo.InvariantInfo),
                         categoryNode.Value
